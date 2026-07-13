@@ -1,37 +1,37 @@
-// Parmak geçmeli (finger joint) kutu paneli üretici — açık üstlü, 5 panel, tamamen kilitli (yapıştırıcısız).
+// Parmak geçmeli (finger joint) kapalı kutu paneli üretici — 6 panel, tamamen kilitli.
 (function () {
   "use strict";
   const { fingerCount, fingerEdge, straightEdge, layoutPanels, renderSVG, buildDXF, download } = VC;
 
-  // Front/Back paneli: genislik x H. Sol/sag kenarlar dikey dikislere parmakli (tam H boyunca).
-  // Alt kenar: [duz(t)] + [parmakli orta kisim, taban paneline kilitlenir] + [duz(t)] — koseler duz
-  // kalir cunku o bolgeler Sol/Sag panelin kalinligina denk gelir, taban orada degil.
-  function frontBackPanel(width, H, t, kerf, nV, nH, rightOut, bottomOut) {
+  // Front/Back paneli: genislik x H. Alt VE ust kenarlar [duz(t)]+[parmakli orta]+[duz(t)].
+  // Sol/sag kenarlar dikey dikislere tam H boyunca parmakli.
+  function frontBackPanel(width, H, t, kerf, nV, nH, rightOut, bottomOut, topOut) {
     const depth = t - kerf;
     let pts = [{ x: t, y: 0 }];
     pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 1, y: 0 }, { x: 0, y: -1 }, width - 2 * t, nH, depth, bottomOut));
     pts.push({ x: width, y: 0 });
     pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: 1 }, { x: 1, y: 0 }, H, nV, depth, rightOut));
-    pts = pts.concat(straightEdge(pts[pts.length - 1], { x: -1, y: 0 }, width)); // ust: acik
+    pts.push({ x: width, y: H });
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: -1, y: 0 }, { x: 0, y: 1 }, width - 2 * t, nH, depth, topOut));
+    pts.push({ x: 0, y: H });
     pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: -1 }, { x: -1, y: 0 }, H, nV, depth, !rightOut));
     pts.push({ x: t, y: 0 });
     return { points: pts, w: width, h: H };
   }
 
-  // Sol/Sag paneli: Wi x H. On/arka kenarlar (front/back'in sag/sol kenarina) tam H boyunca parmakli.
-  // Alt kenar tamamen parmakli (koseler yok, taban paneli buraya tam oturuyor).
-  function leftRightPanel(Wi, H, t, kerf, nV, nH, rightOut, bottomOut) {
+  // Sol/Sag paneli: Wi x H. Alt VE ust kenarlar tamamen parmakli. On/arka kenarlar tam H boyunca parmakli.
+  function leftRightPanel(Wi, H, t, kerf, nV, nH, rightOut, bottomOut, topOut) {
     const depth = t - kerf;
     let pts = [{ x: 0, y: 0 }];
     pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 1, y: 0 }, { x: 0, y: -1 }, Wi, nH, depth, bottomOut));
     pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: 1 }, { x: 1, y: 0 }, H, nV, depth, rightOut));
-    pts = pts.concat(straightEdge(pts[pts.length - 1], { x: -1, y: 0 }, Wi)); // ust: acik
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: -1, y: 0 }, { x: 0, y: 1 }, Wi, nH, depth, topOut));
     pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: -1 }, { x: -1, y: 0 }, H, nV, depth, !rightOut));
     return { points: pts, w: Wi, h: H };
   }
 
-  // Taban paneli: Li x Wi, dort kenari de parmakli.
-  function bottomPanel(Li, Wi, t, kerf, nH_L, nH_W) {
+  // Alt/Ust paneli: Li x Wi, dort kenari de parmakli (ayni sekil, ikisi de ayni fonksiyonla uretilir).
+  function capPanel(Li, Wi, t, kerf, nH_L, nH_W) {
     const depth = t - kerf;
     let pts = [{ x: 0, y: 0 }];
     pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 1, y: 0 }, { x: 0, y: -1 }, Li, nH_L, depth, false));
@@ -48,14 +48,16 @@
     const nH_L = fingerCount(Li, fingerTarget);
     const nH_W = fingerCount(Wi, fingerTarget);
 
-    const front = frontBackPanel(L, H, t, kerf, nV, nH_L, true, true);
-    const back = frontBackPanel(L, H, t, kerf, nV, nH_L, true, true);
-    const left = leftRightPanel(Wi, H, t, kerf, nV, nH_W, false, true);
-    const right = leftRightPanel(Wi, H, t, kerf, nV, nH_W, false, true);
-    const bottom = bottomPanel(Li, Wi, t, kerf, nH_L, nH_W);
+    const front = frontBackPanel(L, H, t, kerf, nV, nH_L, true, true, true);
+    const back = frontBackPanel(L, H, t, kerf, nV, nH_L, true, true, true);
+    const left = leftRightPanel(Wi, H, t, kerf, nV, nH_W, false, true, true);
+    const right = leftRightPanel(Wi, H, t, kerf, nV, nH_W, false, true, true);
+    const bottom = capPanel(Li, Wi, t, kerf, nH_L, nH_W);
+    const top = capPanel(Li, Wi, t, kerf, nH_L, nH_W);
 
     return [
       { name: "Alt", ...bottom },
+      { name: "Üst", ...top },
       { name: "Ön", ...front },
       { name: "Arka", ...back },
       { name: "Sol", ...left },
@@ -90,8 +92,8 @@
   }
 
   document.getElementById("cizBtn").addEventListener("click", ciz);
-  document.getElementById("svgBtn").addEventListener("click", () => download("kutu.svg", currentSVG, "image/svg+xml"));
-  document.getElementById("dxfBtn").addEventListener("click", () => download("kutu.dxf", currentDXF, "application/dxf"));
+  document.getElementById("svgBtn").addEventListener("click", () => download("kapali-kutu.svg", currentSVG, "image/svg+xml"));
+  document.getElementById("dxfBtn").addEventListener("click", () => download("kapali-kutu.dxf", currentDXF, "application/dxf"));
 
   ciz();
 })();
