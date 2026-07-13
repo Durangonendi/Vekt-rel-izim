@@ -36,39 +36,57 @@
     return [{ x: start.x + dir.x * length, y: start.y + dir.y * length }];
   }
 
-  // Front/Back paneli: L x H, sol/sag kenarlar parmakli (dikey dikislere), ust/alt duz.
-  function sideWallPanel(L, H, t, kerf, nV, rightOut) {
+  // Front/Back paneli: genislik x H. Sol/sag kenarlar dikey dikislere parmakli (tam H boyunca).
+  // Alt kenar: [duz(t)] + [parmakli orta kisim, taban paneline kilitlenir] + [duz(t)] — koseler duz
+  // kalir cunku o bolgeler Sol/Sag panelin kalinligina denk gelir, taban orada degil.
+  function frontBackPanel(width, H, t, kerf, nV, nH, rightOut, bottomOut) {
+    const depth = t - kerf;
+    let pts = [{ x: t, y: 0 }];
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 1, y: 0 }, { x: 0, y: -1 }, width - 2 * t, nH, depth, bottomOut)); // alt orta, parmakli
+    pts.push({ x: width, y: 0 }); // sag alt koseye duz tamamlama
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: 1 }, { x: 1, y: 0 }, H, nV, depth, rightOut)); // sag kenar, yukari
+    pts = pts.concat(straightEdge(pts[pts.length - 1], { x: -1, y: 0 }, width)); // ust: saga->sola, acik ust
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: -1 }, { x: -1, y: 0 }, H, nV, depth, !rightOut)); // sol kenar, asagi
+    pts.push({ x: t, y: 0 }); // sol alt koseye duz tamamlama, kapanis
+    return { points: pts, w: width, h: H };
+  }
+
+  // Sol/Sag paneli: Wi x H. On/arka kenarlar (front/back'in sag/sol kenarina) tam H boyunca parmakli.
+  // Alt kenar tamamen parmakli (koseler yok, taban paneli buraya tam oturuyor).
+  function leftRightPanel(Wi, H, t, kerf, nV, nH, rightOut, bottomOut) {
     const depth = t - kerf;
     let pts = [{ x: 0, y: 0 }];
-    pts = pts.concat(straightEdge(pts[pts.length - 1], { x: 1, y: 0 }, L)); // alt: sola->saga
-    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: 1 }, { x: 1, y: 0 }, H, nV, depth, rightOut)); // sag kenar, yukari, disa=+x
-    pts = pts.concat(straightEdge(pts[pts.length - 1], { x: -1, y: 0 }, L)); // ust: saga->sola
-    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: -1 }, { x: -1, y: 0 }, H, nV, depth, !rightOut)); // sol kenar, asagi, disa=-x
-    return { points: pts, w: L, h: H };
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 1, y: 0 }, { x: 0, y: -1 }, Wi, nH, depth, bottomOut)); // alt kenar, tam parmakli
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: 1 }, { x: 1, y: 0 }, H, nV, depth, rightOut)); // sag kenar, yukari
+    pts = pts.concat(straightEdge(pts[pts.length - 1], { x: -1, y: 0 }, Wi)); // ust, acik ust
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: -1 }, { x: -1, y: 0 }, H, nV, depth, !rightOut)); // sol kenar, asagi, otomatik kapanir
+    return { points: pts, w: Wi, h: H };
   }
 
-  // Sol/Sag paneli: (W-2t) x H, on/arka kenarlar parmakli (front panelin sag/sol kenariyla tamamlayici).
-  function endWallPanel(Wi, H, t, kerf, nV, rightOut) {
-    return sideWallPanel(Wi, H, t, kerf, nV, rightOut);
-  }
-
-  function bottomPanel(Li, Wi) {
-    return {
-      points: [{ x: 0, y: 0 }, { x: Li, y: 0 }, { x: Li, y: Wi }, { x: 0, y: Wi }],
-      w: Li, h: Wi,
-    };
+  // Taban paneli: Li x Wi, dort kenari de parmakli — iki uzun kenar (Li) On/Arka'nin orta
+  // kismina, iki kisa kenar (Wi) Sol/Sag'in tam alt kenarina kilitlenir.
+  function bottomPanel(Li, Wi, t, kerf, nH_L, nH_W) {
+    const depth = t - kerf;
+    let pts = [{ x: 0, y: 0 }];
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 1, y: 0 }, { x: 0, y: -1 }, Li, nH_L, depth, false)); // alt (Li) — On'un tamamlayicisi
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: 1 }, { x: 1, y: 0 }, Wi, nH_W, depth, false)); // sag (Wi) — Sag panelin tamamlayicisi
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: -1, y: 0 }, { x: 0, y: 1 }, Li, nH_L, depth, false)); // ust (Li) — Arka'nin tamamlayicisi
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: -1 }, { x: -1, y: 0 }, Wi, nH_W, depth, false)); // sol (Wi) — Sol panelin tamamlayicisi
+    return { points: pts, w: Li, h: Wi };
   }
 
   function buildPanels(L, W, H, t, kerf, fingerTarget) {
-    const Wi = W - 2 * t; // yan panellerin genisligi (on/arka arasina oturur)
-    const Li = L - 2 * t; // alt panelin uzunlugu
+    const Wi = W - 2 * t; // Sol/Sag panel genisligi (On/Arka arasina oturur)
+    const Li = L - 2 * t; // Taban panelinin uzun kenari, On/Arka'nin orta (parmakli) kismiyla ayni
     const nV = fingerCount(H, fingerTarget);
+    const nH_L = fingerCount(Li, fingerTarget);
+    const nH_W = fingerCount(Wi, fingerTarget);
 
-    const front = sideWallPanel(L, H, t, kerf, nV, true);
-    const back = sideWallPanel(L, H, t, kerf, nV, true);
-    const left = endWallPanel(Wi, H, t, kerf, nV, false);
-    const right = endWallPanel(Wi, H, t, kerf, nV, false);
-    const bottom = bottomPanel(Li, Wi);
+    const front = frontBackPanel(L, H, t, kerf, nV, nH_L, true, true);
+    const back = frontBackPanel(L, H, t, kerf, nV, nH_L, true, true);
+    const left = leftRightPanel(Wi, H, t, kerf, nV, nH_W, false, true);
+    const right = leftRightPanel(Wi, H, t, kerf, nV, nH_W, false, true);
+    const bottom = bottomPanel(Li, Wi, t, kerf, nH_L, nH_W);
 
     return [
       { name: "Alt", ...bottom },
