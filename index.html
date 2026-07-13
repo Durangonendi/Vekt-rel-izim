@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ücretsiz Parmak Geçmeli Kutu Çizimi Oluşturucu — Vektörel Çizim</title>
+<meta name="description" content="Ölçülerinizi girin, lazer kesim için hazır parmak geçmeli (finger joint) kutu çizimini saniyeler içinde SVG veya DXF olarak indirin. Tamamen ücretsiz, kayıt gerektirmez.">
+<link rel="canonical" href="https://vektorelcizim.pages.dev/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Vektörel Çizim — Kutu Oluşturucu",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Any (Web)",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "TRY"},
+  "description": "Lazer kesim için ölçülere göre otomatik parmak geçmeli kutu çizimi üreten ücretsiz web aracı."
+}
+</script>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">✂️ Vektörel Çizim</a>
+    <nav class="main-nav">
+      <a href="index.html" class="active">Kutu</a>
+      <span class="soon">Raf <small>(yakında)</small></span>
+      <span class="soon">İsimlik <small>(yakında)</small></span>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Ücretsiz Parmak Geçmeli Kutu Çizimi Oluşturucu</h1>
+    <p>Ölçülerinizi girin, lazer kesime hazır kutu çiziminizi anında görün ve SVG veya DXF olarak indirin. Kayıt yok, ücret yok.</p>
+  </div>
+</section>
+
+<section class="tool-section">
+  <div class="tool-inner">
+    <div class="panel form-panel">
+      <h2>Ölçüler</h2>
+      <div class="field">
+        <label for="uzunluk">Uzunluk (mm)</label>
+        <input type="number" id="uzunluk" value="200" min="20" max="2000" step="1">
+      </div>
+      <div class="field">
+        <label for="genislik">Genişlik (mm)</label>
+        <input type="number" id="genislik" value="150" min="20" max="2000" step="1">
+      </div>
+      <div class="field">
+        <label for="yukseklik">Yükseklik (mm)</label>
+        <input type="number" id="yukseklik" value="80" min="10" max="1000" step="1">
+      </div>
+      <div class="field">
+        <label for="kalinlik">Malzeme Kalınlığı (mm)</label>
+        <input type="number" id="kalinlik" value="3" min="1" max="20" step="0.5">
+      </div>
+
+      <details class="advanced">
+        <summary>Gelişmiş Ayarlar</summary>
+        <div class="field">
+          <label for="parmakHedef">Hedef Parmak Genişliği (mm)</label>
+          <input type="number" id="parmakHedef" value="15" min="5" max="60" step="1">
+        </div>
+        <div class="field">
+          <label for="kerf">Lazer Kesim Payı / Kerf (mm)</label>
+          <input type="number" id="kerf" value="0.15" min="0" max="1" step="0.01">
+          <span class="hint">Lazerinizin kesim genişliğine göre ayarlayın, sıkı geçme için.</span>
+        </div>
+      </details>
+
+      <button id="cizBtn" class="btn-primary">Çizimi Oluştur</button>
+
+      <div id="boyutBilgisi" class="size-info"></div>
+
+      <div class="downloads" id="downloads" style="display:none">
+        <button id="svgBtn" class="btn-secondary">SVG İndir</button>
+        <button id="dxfBtn" class="btn-secondary">DXF İndir</button>
+      </div>
+    </div>
+
+    <div class="panel preview-panel">
+      <h2>Önizleme</h2>
+      <div id="previewWrap" class="preview-wrap">
+        <div class="preview-placeholder">Ölçüleri girip "Çizimi Oluştur"a basın</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ad-slot">
+  <!-- Google AdSense buraya eklenecek -->
+</section>
+
+<section class="info-section">
+  <div class="info-inner">
+    <h2>Nasıl Kullanılır?</h2>
+    <ol>
+      <li>Kutunuzun iç ölçülerini (uzunluk, genişlik, yükseklik) ve kullanacağınız malzemenin kalınlığını girin.</li>
+      <li>"Çizimi Oluştur" butonuna basın, panellerin yerleşimini önizlemede görün.</li>
+      <li>SVG veya DXF olarak indirin, lazer kesim yazılımınıza (LightBurn, CorelDraw, Illustrator vb.) aktarın.</li>
+      <li>Kutu açık üstlü olarak üretilir; alt panel yan panellerin içine oturur ve yapıştırılır, dikey kenarlar parmak geçmelidir.</li>
+    </ol>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">© 2026 Vektörel Çizim — Lazer kesim camiası için ücretsiz araçlar.</div>
+</footer>
+
+<script src="js/kutu.js"></script>
+</body>
+</html>
