@@ -48,9 +48,13 @@
     const nH_L = fingerCount(Li, fingerTarget);
     const nH_W = fingerCount(Wi, fingerTarget);
 
+    // rightOut degerleri kasitli farkli: Ön'un sag kenari Sag panelin bir kenarina, Arka'nin
+    // sag kenari Sag panelin OBUR kenarina kilitleniyor — dordu de ayni degeri kullanirsa
+    // Ön/Arka'dan biri Sag panelle ayni fazda cakisir (kilitlenmez). Bkz. kullanicinin
+    // 2026-07-13/14 gece yakaladigi görsel hata.
     const front = frontBackPanel(L, H, t, kerf, nV, nH_L, true, true);
-    const back = frontBackPanel(L, H, t, kerf, nV, nH_L, true, true);
-    const left = leftRightPanel(Wi, H, t, kerf, nV, nH_W, false, true);
+    const back = frontBackPanel(L, H, t, kerf, nV, nH_L, false, true);
+    const left = leftRightPanel(Wi, H, t, kerf, nV, nH_W, true, true);
     const right = leftRightPanel(Wi, H, t, kerf, nV, nH_W, false, true);
     const bottom = bottomPanel(Li, Wi, t, kerf, nH_L, nH_W);
 

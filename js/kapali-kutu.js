@@ -48,9 +48,11 @@
     const nH_L = fingerCount(Li, fingerTarget);
     const nH_W = fingerCount(Wi, fingerTarget);
 
+    // rightOut degerleri kasitli farkli — bkz. kutu.js'teki ayni duzeltmenin aciklamasi:
+    // Ön/Arka'nin Sag (ve Sol) panelle kesistigi iki ayri kenar farkli fazda olmali.
     const front = frontBackPanel(L, H, t, kerf, nV, nH_L, true, true, true);
-    const back = frontBackPanel(L, H, t, kerf, nV, nH_L, true, true, true);
-    const left = leftRightPanel(Wi, H, t, kerf, nV, nH_W, false, true, true);
+    const back = frontBackPanel(L, H, t, kerf, nV, nH_L, false, true, true);
+    const left = leftRightPanel(Wi, H, t, kerf, nV, nH_W, true, true, true);
     const right = leftRightPanel(Wi, H, t, kerf, nV, nH_W, false, true, true);
     const bottom = capPanel(Li, Wi, t, kerf, nH_L, nH_W);
     const top = capPanel(Li, Wi, t, kerf, nH_L, nH_W);
