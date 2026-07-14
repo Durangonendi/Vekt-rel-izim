@@ -48,6 +48,59 @@ const VC = (function () {
     return wantTabAtLowEnd !== lastFlipped;
   }
 
+  // Acik ustlu, tamamen parmak gecmeli 5 panelli kutu govdesi — Kutu ve Raf araclarinin ikisi de
+  // kullanir. Eksen sozlesmesi: Z=yukseklik (Ön/Arka=true, Sol/Sag=false), X=uzunluk yonu
+  // (Ön/Arka=true, Alt=false), Y=genislik yonu (Sol/Sag=true, Alt=false).
+  const Z_WALL = true, Z_ENDWALL = false, X_WALL = true, X_CAP = false, Y_WALL = true, Y_CAP = false;
+
+  function frontBackPanel(width, H, t, kerf, nV, nH) {
+    const depth = t - kerf;
+    let pts = [{ x: t, y: 0 }];
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 1, y: 0 }, { x: 0, y: -1 }, width - 2 * t, nH, depth, outStartFor(true, nH, X_WALL)));
+    pts.push({ x: width, y: 0 });
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: 1 }, { x: 1, y: 0 }, H, nV, depth, outStartFor(true, nV, Z_WALL)));
+    pts = pts.concat(straightEdge(pts[pts.length - 1], { x: -1, y: 0 }, width));
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: -1 }, { x: -1, y: 0 }, H, nV, depth, outStartFor(false, nV, Z_WALL)));
+    pts.push({ x: t, y: 0 });
+    return { points: pts, w: width, h: H };
+  }
+
+  function leftRightPanel(Wi, H, t, kerf, nV, nH) {
+    const depth = t - kerf;
+    let pts = [{ x: 0, y: 0 }];
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 1, y: 0 }, { x: 0, y: -1 }, Wi, nH, depth, outStartFor(true, nH, Y_WALL)));
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: 1 }, { x: 1, y: 0 }, H, nV, depth, outStartFor(true, nV, Z_ENDWALL)));
+    pts = pts.concat(straightEdge(pts[pts.length - 1], { x: -1, y: 0 }, Wi));
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: -1 }, { x: -1, y: 0 }, H, nV, depth, outStartFor(false, nV, Z_ENDWALL)));
+    return { points: pts, w: Wi, h: H };
+  }
+
+  function bottomCapPanel(Li, Wi, t, kerf, nH_L, nH_W) {
+    const depth = t - kerf;
+    let pts = [{ x: 0, y: 0 }];
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 1, y: 0 }, { x: 0, y: -1 }, Li, nH_L, depth, outStartFor(true, nH_L, X_CAP)));
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: 1 }, { x: 1, y: 0 }, Wi, nH_W, depth, outStartFor(true, nH_W, Y_CAP)));
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: -1, y: 0 }, { x: 0, y: 1 }, Li, nH_L, depth, outStartFor(false, nH_L, X_CAP)));
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: -1 }, { x: -1, y: 0 }, Wi, nH_W, depth, outStartFor(false, nH_W, Y_CAP)));
+    return { points: pts, w: Li, h: Wi };
+  }
+
+  function buildOpenBoxPanels(L, W, H, t, kerf, fingerTarget) {
+    const Wi = W - 2 * t;
+    const Li = L - 2 * t;
+    const nV = fingerCount(H, fingerTarget);
+    const nH_L = fingerCount(Li, fingerTarget);
+    const nH_W = fingerCount(Wi, fingerTarget);
+    return {
+      Wi, Li, nV, nH_L, nH_W,
+      bottom: bottomCapPanel(Li, Wi, t, kerf, nH_L, nH_W),
+      front: frontBackPanel(L, H, t, kerf, nV, nH_L),
+      back: frontBackPanel(L, H, t, kerf, nV, nH_L),
+      left: leftRightPanel(Wi, H, t, kerf, nV, nH_W),
+      right: leftRightPanel(Wi, H, t, kerf, nV, nH_W),
+    };
+  }
+
   function layoutPanels(panels, gap) {
     let x = 0, y = 0, rowH = 0;
     const maxRowW = 900;
@@ -106,5 +159,5 @@ const VC = (function () {
     URL.revokeObjectURL(url);
   }
 
-  return { fingerCount, fingerEdge, straightEdge, outStartFor, layoutPanels, renderSVG, buildDXF, download };
+  return { fingerCount, fingerEdge, straightEdge, outStartFor, buildOpenBoxPanels, layoutPanels, renderSVG, buildDXF, download };
 })();

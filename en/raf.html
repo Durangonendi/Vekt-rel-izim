@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Compartment Organizer / Shelf Tray Generator — Vektörel Çizim</title>
+<meta name="description" content="Enter your dimensions and compartment count, get a laser-cutting-ready organizer tray drawing in seconds — download as SVG or DXF. Completely free, no sign-up required.">
+<link rel="canonical" href="https://vektorel-cizim.pages.dev/en/raf.html">
+<link rel="alternate" hreflang="en" href="https://vektorel-cizim.pages.dev/en/raf.html">
+<link rel="alternate" hreflang="tr" href="https://vektorel-cizim.pages.dev/raf.html">
+<link rel="alternate" hreflang="x-default" href="https://vektorel-cizim.pages.dev/en/raf.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Vektörel Çizim — Organizer Tray Generator",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Any (Web)",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+  "description": "A free web tool that generates compartment organizer/shelf tray drawings for laser cutting from your dimensions and compartment count."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "How do the dividers get assembled?",
+     "acceptedAnswer": {"@type": "Answer", "text": "The outer shell (Bottom, Front, Back, Left, Right) is fully finger-jointed — assemble that first. The divider panels are flat, cut to fit the interior width snugly, and drop into place once the shell is assembled."}},
+    {"@type": "Question", "name": "How many compartments can I choose?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Any number you like — compartments are automatically spaced evenly along the length."}},
+    {"@type": "Question", "name": "Do the dividers need glue?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Not required — they hold in place with a snug friction fit, but you can add a thin bead of glue for a more permanent build."}}
+  ]
+}
+</script>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">✂️ Vektörel Çizim</a>
+    <nav class="main-nav">
+      <a href="index.html">Open Box</a>
+      <a href="kapali-kutu.html">Closed Box</a>
+      <a href="raf.html" class="active">Shelf</a>
+      <span class="soon">Nameplate <small>(soon)</small></span>
+      <a href="../raf.html" class="lang-switch">TR</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Free Compartment Organizer / Shelf Tray Generator</h1>
+    <p>Enter your dimensions and compartment count, see your laser-cutting-ready organizer drawing instantly, and download it as SVG or DXF. No sign-up, no cost.</p>
+  </div>
+</section>
+
+<section class="tool-section">
+  <div class="tool-inner">
+    <div class="panel form-panel">
+      <h2>Dimensions</h2>
+      <div class="field">
+        <label for="uzunluk">Length (mm)</label>
+        <input type="number" id="uzunluk" value="240" min="20" max="2000" step="1">
+      </div>
+      <div class="field">
+        <label for="genislik">Width (mm)</label>
+        <input type="number" id="genislik" value="100" min="20" max="2000" step="1">
+      </div>
+      <div class="field">
+        <label for="yukseklik">Height (mm)</label>
+        <input type="number" id="yukseklik" value="60" min="10" max="1000" step="1">
+      </div>
+      <div class="field">
+        <label for="kalinlik">Material Thickness (mm)</label>
+        <input type="number" id="kalinlik" value="3" min="1" max="20" step="0.5">
+      </div>
+      <div class="field">
+        <label for="bolmeSayisi">Number of Compartments</label>
+        <input type="number" id="bolmeSayisi" value="4" min="1" max="20" step="1">
+      </div>
+
+      <details class="advanced">
+        <summary>Advanced Settings</summary>
+        <div class="field">
+          <label for="parmakHedef">Target Finger Width (mm)</label>
+          <input type="number" id="parmakHedef" value="15" min="5" max="60" step="1">
+        </div>
+        <div class="field">
+          <label for="kerf">Laser Kerf (mm)</label>
+          <input type="number" id="kerf" value="0.15" min="0" max="1" step="0.01">
+          <span class="hint">Adjust to your laser's cut width for a snug fit.</span>
+        </div>
+      </details>
+
+      <button id="cizBtn" class="btn-primary">Generate Drawing</button>
+
+      <div id="boyutBilgisi" class="size-info"></div>
+
+      <div class="downloads" id="downloads" style="display:none">
+        <button id="svgBtn" class="btn-secondary">Download SVG</button>
+        <button id="dxfBtn" class="btn-secondary">Download DXF</button>
+      </div>
+    </div>
+
+    <div class="panel preview-panel">
+      <h2>Preview</h2>
+      <div id="previewWrap" class="preview-wrap">
+        <div class="preview-placeholder">Enter dimensions and click "Generate Drawing"</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ad-slot">
+  <!-- Google AdSense goes here -->
+</section>
+
+<section class="info-section">
+  <div class="info-inner">
+    <h2>How to Use</h2>
+    <ol>
+      <li>Enter the tray's internal dimensions (length, width, height), material thickness, and how many compartments you want.</li>
+      <li>Click "Generate Drawing" to see the panel layout in the preview.</li>
+      <li>Download as SVG or DXF and import into your laser cutting software (LightBurn, CorelDraw, Illustrator, etc.).</li>
+      <li>The outer shell (Bottom, Front, Back, Left, Right) is <strong>fully finger-jointed</strong> and needs no glue — assemble that first. The divider panels are flat (no joinery), cut to fit the interior width snugly, and drop into place once the shell is assembled.</li>
+    </ol>
+  </div>
+</section>
+
+<section class="info-section">
+  <div class="info-inner">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-list">
+      <details><summary>How do the dividers get assembled?</summary><p>The outer shell is fully finger-jointed — assemble that first. The divider panels are flat, cut to fit the interior width snugly, and drop into place once the shell is assembled.</p></details>
+      <details><summary>How many compartments can I choose?</summary><p>Any number you like — compartments are automatically spaced evenly along the length.</p></details>
+      <details><summary>Do the dividers need glue?</summary><p>Not required — they hold in place with a snug friction fit, but you can add a thin bead of glue for a more permanent build.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">© 2026 Vektörel Çizim — Free tools for the laser cutting community.</div>
+</footer>
+
+<script src="../js/common.js"></script>
+<script src="../js/raf.js"></script>
+</body>
+</html>
