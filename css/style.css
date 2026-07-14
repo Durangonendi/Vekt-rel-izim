@@ -10,6 +10,8 @@ a { color: inherit; text-decoration: none; }
 .main-nav a.active { color: #fff; }
 .main-nav .soon { color: rgba(255,255,255,0.3); font-size: 14px; font-weight: 600; }
 .main-nav .soon small { font-weight: 400; }
+.lang-switch { margin-left: auto; border: 1px solid rgba(255,255,255,0.3); border-radius: 5px; padding: 3px 9px; font-size: 12px; }
+.lang-switch:hover { background: rgba(255,255,255,0.1); }
 
 .hero { background: linear-gradient(135deg,#1B2E4B,#243447); padding: 48px 20px; text-align: center; }
 .hero-inner { max-width: 700px; margin: 0 auto; }

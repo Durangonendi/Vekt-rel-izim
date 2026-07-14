@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Open-Top Finger Joint Box Generator — Vektörel Çizim</title>
+<meta name="description" content="Enter your dimensions and get a laser-cutting-ready finger joint box drawing in seconds — download as SVG or DXF. Completely free, no sign-up required.">
+<link rel="canonical" href="https://vektorel-cizim.pages.dev/en/">
+<link rel="alternate" hreflang="en" href="https://vektorel-cizim.pages.dev/en/">
+<link rel="alternate" hreflang="tr" href="https://vektorel-cizim.pages.dev/">
+<link rel="alternate" hreflang="x-default" href="https://vektorel-cizim.pages.dev/en/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Vektörel Çizim — Box Generator",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Any (Web)",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+  "description": "A free web tool that generates finger joint box drawings for laser cutting from your dimensions."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "What is a finger joint box?",
+     "acceptedAnswer": {"@type": "Answer", "text": "A finger joint box is a laser-cut box style where small interlocking tabs and slots along each panel's edges lock together without glue. The zigzag pattern creates a tight, durable joint."}},
+    {"@type": "Question", "name": "Which materials can I use?",
+     "acceptedAnswer": {"@type": "Answer", "text": "MDF, plywood, acrylic, cardboard, and any other flat sheet material that can be laser cut. Just enter the actual thickness of your material."}},
+    {"@type": "Question", "name": "Why does kerf matter?",
+     "acceptedAnswer": {"@type": "Answer", "text": "The laser beam vaporizes a thin strip of material as it cuts, which makes parts come out slightly narrower than designed. Entering your kerf value compensates for this so the finger joints fit snugly instead of too loose or too tight."}},
+    {"@type": "Question", "name": "Should I download SVG or DXF?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Most laser cutting software (LightBurn, CorelDraw, Illustrator, AutoCAD) can open either. DXF is more common in CNC/CAD software; SVG works more easily in web-based tools and some hobby laser software. If unsure, download both and try."}},
+    {"@type": "Question", "name": "Is this tool really free?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Yes, it's completely free with no sign-up or account required. Generate and download as many drawings as you like."}}
+  ]
+}
+</script>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">✂️ Vektörel Çizim</a>
+    <nav class="main-nav">
+      <a href="index.html" class="active">Open Box</a>
+      <a href="kapali-kutu.html">Closed Box</a>
+      <span class="soon">Shelf <small>(soon)</small></span>
+      <span class="soon">Nameplate <small>(soon)</small></span>
+      <a href="../index.html" class="lang-switch">TR</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Free Open-Top Finger Joint Box Generator</h1>
+    <p>Enter your dimensions, see your laser-cutting-ready box drawing instantly, and download it as SVG or DXF. No sign-up, no cost.</p>
+  </div>
+</section>
+
+<section class="tool-section">
+  <div class="tool-inner">
+    <div class="panel form-panel">
+      <h2>Dimensions</h2>
+      <div class="field">
+        <label for="uzunluk">Length (mm)</label>
+        <input type="number" id="uzunluk" value="200" min="20" max="2000" step="1">
+      </div>
+      <div class="field">
+        <label for="genislik">Width (mm)</label>
+        <input type="number" id="genislik" value="150" min="20" max="2000" step="1">
+      </div>
+      <div class="field">
+        <label for="yukseklik">Height (mm)</label>
+        <input type="number" id="yukseklik" value="80" min="10" max="1000" step="1">
+      </div>
+      <div class="field">
+        <label for="kalinlik">Material Thickness (mm)</label>
+        <input type="number" id="kalinlik" value="3" min="1" max="20" step="0.5">
+      </div>
+
+      <details class="advanced">
+        <summary>Advanced Settings</summary>
+        <div class="field">
+          <label for="parmakHedef">Target Finger Width (mm)</label>
+          <input type="number" id="parmakHedef" value="15" min="5" max="60" step="1">
+        </div>
+        <div class="field">
+          <label for="kerf">Laser Kerf (mm)</label>
+          <input type="number" id="kerf" value="0.15" min="0" max="1" step="0.01">
+          <span class="hint">Adjust to your laser's cut width for a snug fit.</span>
+        </div>
+      </details>
+
+      <button id="cizBtn" class="btn-primary">Generate Drawing</button>
+
+      <div id="boyutBilgisi" class="size-info"></div>
+
+      <div class="downloads" id="downloads" style="display:none">
+        <button id="svgBtn" class="btn-secondary">Download SVG</button>
+        <button id="dxfBtn" class="btn-secondary">Download DXF</button>
+      </div>
+    </div>
+
+    <div class="panel preview-panel">
+      <h2>Preview</h2>
+      <div id="previewWrap" class="preview-wrap">
+        <div class="preview-placeholder">Enter dimensions and click "Generate Drawing"</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ad-slot">
+  <!-- Google AdSense goes here -->
+</section>
+
+<section class="info-section">
+  <div class="info-inner">
+    <h2>How to Use</h2>
+    <ol>
+      <li>Enter your box's internal dimensions (length, width, height) and the thickness of the material you'll be using.</li>
+      <li>Click "Generate Drawing" to see the panel layout in the preview.</li>
+      <li>Download as SVG or DXF and import into your laser cutting software (LightBurn, CorelDraw, Illustrator, etc.).</li>
+      <li>The box is open-top and <strong>fully finger-jointed</strong> — no glue required anywhere. Assembly order: join the 3 side panels (Front, Left, Back) first, seat the bottom into their base edges, then close and lock the Right panel last.</li>
+    </ol>
+  </div>
+</section>
+
+<section class="info-section">
+  <div class="info-inner">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-list">
+      <details><summary>What is a finger joint box?</summary><p>A laser-cut box style where small interlocking tabs and slots along each panel's edges lock together without glue. The zigzag pattern creates a tight, durable joint.</p></details>
+      <details><summary>Which materials can I use?</summary><p>MDF, plywood, acrylic, cardboard, and any other flat sheet material that can be laser cut. Just enter the actual thickness of your material.</p></details>
+      <details><summary>Why does kerf matter?</summary><p>The laser beam vaporizes a thin strip of material as it cuts, which makes parts come out slightly narrower than designed. Entering your kerf value compensates for this so the joints fit snugly.</p></details>
+      <details><summary>Should I download SVG or DXF?</summary><p>Most laser cutting software (LightBurn, CorelDraw, Illustrator, AutoCAD) can open either. DXF is more common in CNC/CAD software; SVG works more easily in web-based tools. If unsure, try both.</p></details>
+      <details><summary>Is this tool really free?</summary><p>Yes, completely free, no sign-up or account required. Generate and download as many drawings as you like.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">© 2026 Vektörel Çizim — Free tools for the laser cutting community.</div>
+</footer>
+
+<script src="../js/common.js"></script>
+<script src="../js/kutu.js"></script>
+</body>
+</html>

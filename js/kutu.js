@@ -61,13 +61,17 @@
     const left = leftRightPanel(Wi, H, t, kerf, nV, nH_W);
     const right = leftRightPanel(Wi, H, t, kerf, nV, nH_W);
     const bottom = bottomPanel(Li, Wi, t, kerf, nH_L, nH_W);
+    const isEn = document.documentElement.lang === "en";
+    const N = isEn
+      ? { bottom: "Bottom", front: "Front", back: "Back", left: "Left", right: "Right" }
+      : { bottom: "Alt", front: "Ön", back: "Arka", left: "Sol", right: "Sağ" };
 
     return [
-      { name: "Alt", ...bottom },
-      { name: "Ön", ...front },
-      { name: "Arka", ...back },
-      { name: "Sol", ...left },
-      { name: "Sağ", ...right },
+      { name: N.bottom, ...bottom },
+      { name: N.front, ...front },
+      { name: N.back, ...back },
+      { name: N.left, ...left },
+      { name: N.right, ...right },
     ];
   }
 
@@ -81,8 +85,12 @@
     const fingerTarget = Number(document.getElementById("parmakHedef").value);
     const kerf = Number(document.getElementById("kerf").value);
 
+    const isEn = document.documentElement.lang === "en";
+
     if (W - 2 * t <= 5 || L - 2 * t <= 5) {
-      document.getElementById("boyutBilgisi").textContent = "Uzunluk/Genişlik, malzeme kalınlığına göre çok küçük. Ölçüleri kontrol edin.";
+      document.getElementById("boyutBilgisi").textContent = isEn
+        ? "Length/Width too small for this material thickness. Check your dimensions."
+        : "Uzunluk/Genişlik, malzeme kalınlığına göre çok küçük. Ölçüleri kontrol edin.";
       return;
     }
 
@@ -93,7 +101,9 @@
     currentDXF = buildDXF(placed);
 
     document.getElementById("previewWrap").innerHTML = currentSVG;
-    document.getElementById("boyutBilgisi").textContent = `Toplam yerleşim alanı: ${Math.round(totalW)} x ${Math.round(totalH)} mm`;
+    document.getElementById("boyutBilgisi").textContent = isEn
+      ? `Total layout area: ${Math.round(totalW)} x ${Math.round(totalH)} mm`
+      : `Toplam yerleşim alanı: ${Math.round(totalW)} x ${Math.round(totalH)} mm`;
     document.getElementById("downloads").style.display = "flex";
   }
 
