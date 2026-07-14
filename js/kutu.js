@@ -42,7 +42,7 @@
     const { placed, totalW, totalH } = layoutPanels(panels, 10);
 
     currentSVG = renderSVG(placed, totalW, totalH);
-    currentDXF = buildDXF(placed);
+    currentDXF = buildDXF(placed, totalH);
 
     document.getElementById("previewWrap").innerHTML = currentSVG;
     document.getElementById("boyutBilgisi").textContent = isEn

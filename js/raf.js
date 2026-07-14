@@ -54,7 +54,7 @@
     const { placed, totalW, totalH } = layoutPanels(panels, 10);
 
     currentSVG = renderSVG(placed, totalW, totalH);
-    currentDXF = buildDXF(placed);
+    currentDXF = buildDXF(placed, totalH);
 
     document.getElementById("previewWrap").innerHTML = currentSVG;
     const compartmentWidth = ((L - 2 * t) / bolmeSayisi).toFixed(1);

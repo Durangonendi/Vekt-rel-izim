@@ -149,7 +149,7 @@
 
     const build = buildIsimlik(loadedFont, text, heightMM, marginMM, addHole);
     currentSVG = renderIsimlikSVG(build);
-    currentDXF = buildDXF(build.panels);
+    currentDXF = buildDXF(build.panels, build.plateH);
 
     document.getElementById("previewWrap").innerHTML = currentSVG;
     document.getElementById("boyutBilgisi").textContent = isEn

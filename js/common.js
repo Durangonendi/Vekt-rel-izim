@@ -134,10 +134,15 @@ const VC = (function () {
     return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${-pad} ${-pad} ${totalW + 2 * pad} ${totalH + 2 * pad}" width="600" height="${Math.round((600 * (totalH + 2 * pad)) / (totalW + 2 * pad))}">${inner}</svg>`;
   }
 
-  function buildDXF(placed) {
+  // DXF/CAD gorutucler (LightBurn dahil) Y eksenini YUKARI artan kabul eder; bizim tum
+  // geometrimiz (SVG onizleme dahil) ekran usulu Y AŞAĞI artan kullanıyor. Bu fark kutu
+  // panellerinde sorun yaratmiyordu (butun parca birlikte aynali oldugu icin parmak gecmeler
+  // yine birbirine uyuyor) ama metin/yazi iceren cizimlerde ters (bas asagi) gorunmeye
+  // sebep oluyor. totalH ile tum cizimi tek seferde dikey aynalayip DXF'i dogru yone ceviriyoruz.
+  function buildDXF(placed, totalH) {
     let entities = "";
     for (const p of placed) {
-      const pts = p.points.map((pt) => ({ x: pt.x + p.ox, y: pt.y + p.oy }));
+      const pts = p.points.map((pt) => ({ x: pt.x + p.ox, y: totalH - (pt.y + p.oy) }));
       let verts = "";
       for (const v of pts) {
         verts += `10\n${v.x.toFixed(3)}\n20\n${v.y.toFixed(3)}\n`;
