@@ -36,6 +36,18 @@ const VC = (function () {
     return [{ x: start.x + dir.x * length, y: start.y + dir.y * length }];
   }
 
+  // Bir dikişte iki panel ortak bir eksende (ör. yükseklik) parmak geçme yapacaksa, o eksendeki
+  // "düşük uçta" (ör. z=0) hangi panelde çıkıntı olacağını (wantTabAtLowEnd) tayin edip, HER
+  // panelin KENDİ çizim yönüne (artan mı azalan mı) göre doğru outStart değerini hesaplar.
+  // Bu, "outStart'ı ters çevir" gibi basit bir kural yerine kullanılmalı — çünkü kenar azalan
+  // yönde çiziliyorsa (parcayı kapatmak için ters taraftan gelince), gerekli outStart parça
+  // sayısının tek/çift olmasına göre değişir. Bu fonksiyon o inceliği tek yerde çözer.
+  function outStartFor(increasing, count, wantTabAtLowEnd) {
+    if (increasing) return wantTabAtLowEnd;
+    const lastFlipped = (count - 1) % 2 === 1;
+    return wantTabAtLowEnd !== lastFlipped;
+  }
+
   function layoutPanels(panels, gap) {
     let x = 0, y = 0, rowH = 0;
     const maxRowW = 900;
@@ -94,5 +106,5 @@ const VC = (function () {
     URL.revokeObjectURL(url);
   }
 
-  return { fingerCount, fingerEdge, straightEdge, layoutPanels, renderSVG, buildDXF, download };
+  return { fingerCount, fingerEdge, straightEdge, outStartFor, layoutPanels, renderSVG, buildDXF, download };
 })();

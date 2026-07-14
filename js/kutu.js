@@ -1,32 +1,40 @@
 // Parmak geçmeli (finger joint) kutu paneli üretici — açık üstlü, 5 panel, tamamen kilitli (yapıştırıcısız).
+//
+// Her dikiş, mutlak bir eksene (Z=yükseklik, X=uzunluk yönü, Y=genişlik yönü) göre "düşük uçta
+// çıkıntı kimde" diye tanımlanır (bkz. common.js outStartFor). Bu sayede parça sayısının tek/çift
+// olması veya kenarın hangi yönde çizildiği fark etmeden her dikiş doğru kilitlenir.
 (function () {
   "use strict";
-  const { fingerCount, fingerEdge, straightEdge, layoutPanels, renderSVG, buildDXF, download } = VC;
+  const { fingerEdge, straightEdge, fingerCount, outStartFor, layoutPanels, renderSVG, buildDXF, download } = VC;
 
-  // Front/Back paneli: genislik x H. Sol/sag kenarlar dikey dikislere parmakli (tam H boyunca).
-  // Alt kenar: [duz(t)] + [parmakli orta kisim, taban paneline kilitlenir] + [duz(t)] — koseler duz
-  // kalir cunku o bolgeler Sol/Sag panelin kalinligina denk gelir, taban orada degil.
-  function frontBackPanel(width, H, t, kerf, nV, nH, rightOut, bottomOut) {
+  // Eksen sozlesmesi: Z ekseninde Ön/Arka=true, Sol/Sağ=false. X ekseninde (Li) Ön/Arka=true, Alt=false.
+  // Y ekseninde (Wi) Sol/Sağ=true, Alt=false.
+  const Z_WALL = true, Z_ENDWALL = false;
+  const X_WALL = true, X_CAP = false;
+  const Y_WALL = true, Y_CAP = false;
+
+  // Front/Back paneli: genislik x H. Alt kenar: [duz(t)]+[parmakli orta, X ekseni]+[duz(t)].
+  // Sag/sol kenarlar Z ekseninde parmakli.
+  function frontBackPanel(width, H, t, kerf, nV, nH) {
     const depth = t - kerf;
     let pts = [{ x: t, y: 0 }];
-    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 1, y: 0 }, { x: 0, y: -1 }, width - 2 * t, nH, depth, bottomOut));
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 1, y: 0 }, { x: 0, y: -1 }, width - 2 * t, nH, depth, outStartFor(true, nH, X_WALL)));
     pts.push({ x: width, y: 0 });
-    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: 1 }, { x: 1, y: 0 }, H, nV, depth, rightOut));
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: 1 }, { x: 1, y: 0 }, H, nV, depth, outStartFor(true, nV, Z_WALL)));
     pts = pts.concat(straightEdge(pts[pts.length - 1], { x: -1, y: 0 }, width)); // ust: acik
-    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: -1 }, { x: -1, y: 0 }, H, nV, depth, !rightOut));
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: -1 }, { x: -1, y: 0 }, H, nV, depth, outStartFor(false, nV, Z_WALL)));
     pts.push({ x: t, y: 0 });
     return { points: pts, w: width, h: H };
   }
 
-  // Sol/Sag paneli: Wi x H. On/arka kenarlar (front/back'in sag/sol kenarina) tam H boyunca parmakli.
-  // Alt kenar tamamen parmakli (koseler yok, taban paneli buraya tam oturuyor).
-  function leftRightPanel(Wi, H, t, kerf, nV, nH, rightOut, bottomOut) {
+  // Sol/Sag paneli: Wi x H. Alt kenar Y ekseninde tam parmakli. Sag/sol kenarlar Z ekseninde parmakli.
+  function leftRightPanel(Wi, H, t, kerf, nV, nH) {
     const depth = t - kerf;
     let pts = [{ x: 0, y: 0 }];
-    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 1, y: 0 }, { x: 0, y: -1 }, Wi, nH, depth, bottomOut));
-    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: 1 }, { x: 1, y: 0 }, H, nV, depth, rightOut));
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 1, y: 0 }, { x: 0, y: -1 }, Wi, nH, depth, outStartFor(true, nH, Y_WALL)));
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: 1 }, { x: 1, y: 0 }, H, nV, depth, outStartFor(true, nV, Z_ENDWALL)));
     pts = pts.concat(straightEdge(pts[pts.length - 1], { x: -1, y: 0 }, Wi)); // ust: acik
-    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: -1 }, { x: -1, y: 0 }, H, nV, depth, !rightOut));
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: -1 }, { x: -1, y: 0 }, H, nV, depth, outStartFor(false, nV, Z_ENDWALL)));
     return { points: pts, w: Wi, h: H };
   }
 
@@ -34,10 +42,10 @@
   function bottomPanel(Li, Wi, t, kerf, nH_L, nH_W) {
     const depth = t - kerf;
     let pts = [{ x: 0, y: 0 }];
-    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 1, y: 0 }, { x: 0, y: -1 }, Li, nH_L, depth, false));
-    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: 1 }, { x: 1, y: 0 }, Wi, nH_W, depth, false));
-    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: -1, y: 0 }, { x: 0, y: 1 }, Li, nH_L, depth, false));
-    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: -1 }, { x: -1, y: 0 }, Wi, nH_W, depth, false));
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 1, y: 0 }, { x: 0, y: -1 }, Li, nH_L, depth, outStartFor(true, nH_L, X_CAP)));
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: 1 }, { x: 1, y: 0 }, Wi, nH_W, depth, outStartFor(true, nH_W, Y_CAP)));
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: -1, y: 0 }, { x: 0, y: 1 }, Li, nH_L, depth, outStartFor(false, nH_L, X_CAP)));
+    pts = pts.concat(fingerEdge(pts[pts.length - 1], { x: 0, y: -1 }, { x: -1, y: 0 }, Wi, nH_W, depth, outStartFor(false, nH_W, Y_CAP)));
     return { points: pts, w: Li, h: Wi };
   }
 
@@ -48,14 +56,10 @@
     const nH_L = fingerCount(Li, fingerTarget);
     const nH_W = fingerCount(Wi, fingerTarget);
 
-    // rightOut degerleri kasitli farkli: Ön'un sag kenari Sag panelin bir kenarina, Arka'nin
-    // sag kenari Sag panelin OBUR kenarina kilitleniyor — dordu de ayni degeri kullanirsa
-    // Ön/Arka'dan biri Sag panelle ayni fazda cakisir (kilitlenmez). Bkz. kullanicinin
-    // 2026-07-13/14 gece yakaladigi görsel hata.
-    const front = frontBackPanel(L, H, t, kerf, nV, nH_L, true, true);
-    const back = frontBackPanel(L, H, t, kerf, nV, nH_L, false, true);
-    const left = leftRightPanel(Wi, H, t, kerf, nV, nH_W, true, true);
-    const right = leftRightPanel(Wi, H, t, kerf, nV, nH_W, false, true);
+    const front = frontBackPanel(L, H, t, kerf, nV, nH_L);
+    const back = frontBackPanel(L, H, t, kerf, nV, nH_L);
+    const left = leftRightPanel(Wi, H, t, kerf, nV, nH_W);
+    const right = leftRightPanel(Wi, H, t, kerf, nV, nH_W);
     const bottom = bottomPanel(Li, Wi, t, kerf, nH_L, nH_W);
 
     return [
