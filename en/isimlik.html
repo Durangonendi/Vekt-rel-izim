@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Laser Cut Nameplate / Sign Generator — Vektörel Çizim</title>
+<meta name="description" content="Enter your text and get laser-cutting-ready letter and backing-plate drawings in seconds — download as SVG or DXF. Completely free, no sign-up required.">
+<link rel="canonical" href="https://vektorel-cizim.pages.dev/en/isimlik.html">
+<link rel="alternate" hreflang="en" href="https://vektorel-cizim.pages.dev/en/isimlik.html">
+<link rel="alternate" hreflang="tr" href="https://vektorel-cizim.pages.dev/isimlik.html">
+<link rel="alternate" hreflang="x-default" href="https://vektorel-cizim.pages.dev/en/isimlik.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Vektörel Çizim — Nameplate Generator",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Any (Web)",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+  "description": "A free web tool that converts your text into laser-cutting-ready letter and backing-plate drawings."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "How do I assemble the letters?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Cut the letters and the backing plate separately, then glue the letters onto the plate. Use a contrasting color or material for extra visual contrast if you like."}},
+    {"@type": "Question", "name": "Are the letter counters (holes in O, A, etc.) a problem?",
+     "acceptedAnswer": {"@type": "Answer", "text": "No, those holes are cut correctly as part of the letter's own outline — no extra step needed."}},
+    {"@type": "Question", "name": "What's the hanging hole option?",
+     "acceptedAnswer": {"@type": "Answer", "text": "It adds a small hole near the top of the backing plate so you can hang it with a keyring or hook. Optional."}},
+    {"@type": "Question", "name": "Is this tool really free?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Yes, completely free, no sign-up or account required. Generate and download as many drawings as you like."}}
+  ]
+}
+</script>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">✂️ Vektörel Çizim</a>
+    <nav class="main-nav">
+      <a href="index.html">Open Box</a>
+      <a href="kapali-kutu.html">Closed Box</a>
+      <a href="raf.html">Shelf</a>
+      <a href="isimlik.html" class="active">Nameplate</a>
+      <a href="../isimlik.html" class="lang-switch">TR</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Free Nameplate / Sign Generator</h1>
+    <p>Enter your text, see the letters and backing plate instantly, and download as SVG or DXF. No sign-up, no cost.</p>
+  </div>
+</section>
+
+<section class="tool-section">
+  <div class="tool-inner">
+    <div class="panel form-panel">
+      <h2>Settings</h2>
+      <div class="field">
+        <label for="metin">Text</label>
+        <input type="text" id="metin" value="Your Name" maxlength="40">
+      </div>
+      <div class="field">
+        <label for="harfYuksekligi">Letter Height (mm)</label>
+        <input type="number" id="harfYuksekligi" value="30" min="5" max="300" step="1">
+      </div>
+      <div class="field">
+        <label for="kenarPayi">Plate Margin (mm)</label>
+        <input type="number" id="kenarPayi" value="12" min="4" max="60" step="1">
+      </div>
+      <div class="field field-checkbox">
+        <input type="checkbox" id="askiDeligi">
+        <label for="askiDeligi">Add hanging hole</label>
+      </div>
+
+      <button id="cizBtn" class="btn-primary">Generate Drawing</button>
+
+      <div id="boyutBilgisi" class="size-info"></div>
+
+      <div class="downloads" id="downloads" style="display:none">
+        <button id="svgBtn" class="btn-secondary">Download SVG</button>
+        <button id="dxfBtn" class="btn-secondary">Download DXF</button>
+      </div>
+    </div>
+
+    <div class="panel preview-panel">
+      <h2>Preview</h2>
+      <div id="previewWrap" class="preview-wrap">
+        <div class="preview-placeholder">Enter text and click "Generate Drawing"</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ad-slot">
+  <!-- Google AdSense goes here -->
+</section>
+
+<section class="info-section">
+  <div class="info-inner">
+    <h2>How to Use</h2>
+    <ol>
+      <li>Enter your text (a name, shop name, short message, etc.), set the letter height and plate margin.</li>
+      <li>Click "Generate Drawing" to see the result in the preview.</li>
+      <li>Download as SVG or DXF and import into your laser cutting software (LightBurn, CorelDraw, Illustrator, etc.).</li>
+      <li>The drawing contains a <strong>backing plate (rectangle)</strong> and <strong>letters</strong> as separate cut pieces. Cut both, then glue the letters onto the backing plate — use a contrasting color or material if you like.</li>
+      <li>The "Add hanging hole" option adds a small hole near the top of the plate for a keyring or hook.</li>
+    </ol>
+  </div>
+</section>
+
+<section class="info-section">
+  <div class="info-inner">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-list">
+      <details><summary>How do I assemble the letters?</summary><p>Cut the letters and the backing plate separately, then glue the letters onto the plate. Use a contrasting color or material for extra visual contrast if you like.</p></details>
+      <details><summary>Are the letter counters (holes in O, A, etc.) a problem?</summary><p>No, those holes are cut correctly as part of the letter's own outline — no extra step needed.</p></details>
+      <details><summary>What's the hanging hole option?</summary><p>It adds a small hole near the top of the backing plate so you can hang it with a keyring or hook. Optional.</p></details>
+      <details><summary>Is this tool really free?</summary><p>Yes, completely free, no sign-up or account required. Generate and download as many drawings as you like.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">© 2026 Vektörel Çizim — Free tools for the laser cutting community.</div>
+</footer>
+
+<script src="../js/lib/opentype.min.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/isimlik.js"></script>
+</body>
+</html>

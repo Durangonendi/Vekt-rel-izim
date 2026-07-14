@@ -29,6 +29,9 @@ a { color: inherit; text-decoration: none; }
 .field label { font-size: 12px; font-weight: 700; color: #7F8C8D; letter-spacing: 0.3px; }
 .field input { padding: 9px 12px; border: 1px solid #E0E6ED; border-radius: 6px; font-size: 14px; background: #F8F9FA; }
 .field .hint { font-size: 11px; color: #7F8C8D; }
+.field-checkbox { flex-direction: row; align-items: center; gap: 8px; }
+.field-checkbox input { padding: 0; width: 16px; height: 16px; flex: none; }
+.field-checkbox label { font-size: 13px; font-weight: 600; color: #1B2E4B; letter-spacing: normal; }
 
 .advanced { margin: 14px 0; border-top: 1px solid #E0E6ED; padding-top: 12px; }
 .advanced summary { cursor: pointer; font-size: 13px; font-weight: 700; color: #3498DB; margin-bottom: 10px; }

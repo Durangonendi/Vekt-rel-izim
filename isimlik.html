@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ücretsiz Lazer Kesim İsimlik / Tabela Oluşturucu — Vektörel Çizim</title>
+<meta name="description" content="İstediğiniz yazıyı girin, harfleri ve alt plakayı lazer kesime hazır SVG veya DXF olarak saniyeler içinde indirin. Tamamen ücretsiz, kayıt gerektirmez.">
+<link rel="canonical" href="https://vektorel-cizim.pages.dev/isimlik.html">
+<link rel="alternate" hreflang="tr" href="https://vektorel-cizim.pages.dev/isimlik.html">
+<link rel="alternate" hreflang="en" href="https://vektorel-cizim.pages.dev/en/isimlik.html">
+<link rel="alternate" hreflang="x-default" href="https://vektorel-cizim.pages.dev/en/isimlik.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Vektörel Çizim — İsimlik Oluşturucu",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Any (Web)",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "TRY"},
+  "description": "Girilen metni lazer kesime hazır harf ve alt plaka çizimine çeviren ücretsiz web aracı."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Harfleri nasıl monte ederim?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Harfleri ve alt plakayı ayrı ayrı kesip, harfleri plakanın üzerine yapıştırarak monte edersiniz. İstenirse farklı renk/malzemeden kesilerek kontrast sağlanabilir."}},
+    {"@type": "Question", "name": "Türkçe karakterler (ş, ğ, ı, ç, ö, ü) destekleniyor mu?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Evet, kullanılan yazı tipi Türkçe karakterlerin tamamını destekler."}},
+    {"@type": "Question", "name": "Harflerin içindeki boşluklar (O, A gibi) sorun olur mu?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Hayır, bu boşluklar harfin kendi tasarımının bir parçası olarak doğru şekilde kesilir; ayrı bir işlem gerektirmez."}},
+    {"@type": "Question", "name": "Asma deliği nedir?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Plakanın üst kısmına küçük bir delik ekler, böylece anahtarlık ipi veya kancayla asabilirsiniz. İsteğe bağlıdır."}}
+  ]
+}
+</script>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">✂️ Vektörel Çizim</a>
+    <nav class="main-nav">
+      <a href="index.html">Açık Kutu</a>
+      <a href="kapali-kutu.html">Kapalı Kutu</a>
+      <a href="raf.html">Raf</a>
+      <a href="isimlik.html" class="active">İsimlik</a>
+      <a href="en/isimlik.html" class="lang-switch">EN</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Ücretsiz İsimlik / Tabela Oluşturucu</h1>
+    <p>İstediğiniz yazıyı girin, harfleri ve alt plakayı anında görün, SVG veya DXF olarak indirin. Kayıt yok, ücret yok.</p>
+  </div>
+</section>
+
+<section class="tool-section">
+  <div class="tool-inner">
+    <div class="panel form-panel">
+      <h2>Ayarlar</h2>
+      <div class="field">
+        <label for="metin">Yazı</label>
+        <input type="text" id="metin" value="İsminiz" maxlength="40">
+      </div>
+      <div class="field">
+        <label for="harfYuksekligi">Harf Yüksekliği (mm)</label>
+        <input type="number" id="harfYuksekligi" value="30" min="5" max="300" step="1">
+      </div>
+      <div class="field">
+        <label for="kenarPayi">Plaka Kenar Payı (mm)</label>
+        <input type="number" id="kenarPayi" value="12" min="4" max="60" step="1">
+      </div>
+      <div class="field field-checkbox">
+        <input type="checkbox" id="askiDeligi">
+        <label for="askiDeligi">Asma deliği ekle</label>
+      </div>
+
+      <button id="cizBtn" class="btn-primary">Çizimi Oluştur</button>
+
+      <div id="boyutBilgisi" class="size-info"></div>
+
+      <div class="downloads" id="downloads" style="display:none">
+        <button id="svgBtn" class="btn-secondary">SVG İndir</button>
+        <button id="dxfBtn" class="btn-secondary">DXF İndir</button>
+      </div>
+    </div>
+
+    <div class="panel preview-panel">
+      <h2>Önizleme</h2>
+      <div id="previewWrap" class="preview-wrap">
+        <div class="preview-placeholder">Yazıyı girip "Çizimi Oluştur"a basın</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ad-slot">
+  <!-- Google AdSense buraya eklenecek -->
+</section>
+
+<section class="info-section">
+  <div class="info-inner">
+    <h2>Nasıl Kullanılır?</h2>
+    <ol>
+      <li>İstediğiniz yazıyı girin (isim, dükkan adı, kısa mesaj vb.), harf yüksekliğini ve plaka kenar payını ayarlayın.</li>
+      <li>"Çizimi Oluştur" butonuna basın, sonucu önizlemede görün.</li>
+      <li>SVG veya DXF olarak indirin, lazer kesim yazılımınıza (LightBurn, CorelDraw, Illustrator vb.) aktarın.</li>
+      <li>Çizimde <strong>alt plaka (dikdörtgen)</strong> ve <strong>harfler</strong> ayrı ayrı kesilecek parçalar olarak yer alır. Harfleri kesip alt plakanın üzerine yapıştırarak monte edin — isterseniz kontrast için farklı renk/malzeme kullanabilirsiniz.</li>
+      <li>"Asma deliği ekle" seçeneği plakanın üst kısmına küçük bir delik ekler, anahtarlık veya kancayla asmak için.</li>
+    </ol>
+  </div>
+</section>
+
+<section class="info-section">
+  <div class="info-inner">
+    <h2>Sıkça Sorulan Sorular</h2>
+    <div class="faq-list">
+      <details><summary>Harfleri nasıl monte ederim?</summary><p>Harfleri ve alt plakayı ayrı ayrı kesip, harfleri plakanın üzerine yapıştırarak monte edersiniz. İstenirse farklı renk/malzemeden kesilerek kontrast sağlanabilir.</p></details>
+      <details><summary>Türkçe karakterler (ş, ğ, ı, ç, ö, ü) destekleniyor mu?</summary><p>Evet, kullanılan yazı tipi Türkçe karakterlerin tamamını destekler.</p></details>
+      <details><summary>Harflerin içindeki boşluklar (O, A gibi) sorun olur mu?</summary><p>Hayır, bu boşluklar harfin kendi tasarımının bir parçası olarak doğru şekilde kesilir; ayrı bir işlem gerektirmez.</p></details>
+      <details><summary>Asma deliği nedir?</summary><p>Plakanın üst kısmına küçük bir delik ekler, böylece anahtarlık ipi veya kancayla asabilirsiniz. İsteğe bağlıdır.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">© 2026 Vektörel Çizim — Lazer kesim camiası için ücretsiz araçlar.</div>
+</footer>
+
+<script src="js/lib/opentype.min.js"></script>
+<script src="js/common.js"></script>
+<script src="js/isimlik.js"></script>
+</body>
+</html>
