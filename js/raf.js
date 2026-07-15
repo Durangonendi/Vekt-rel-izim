@@ -1,16 +1,27 @@
 // Raf / Organizer aracı — dış gövde Açık Kutu ile aynı (VC.buildOpenBoxPanels, tamamen parmak
-// geçmeli), içine N-1 tane düz (parmaksız) bölme paneli eklenir. Bölmeler kutunun iç genişliğine
-// (Wi) tam oturacak şekilde kesilir, sıkı geçme ile yerinde durur — ek bağlantı elemanı gerekmez.
+// geçmeli). Bölmeler yapıştırma değil, GEÇMELİ (slot+tab) — alt plakaya her bölme için tam
+// derinlikte (Wi boyunca, öndem arkaya komple) bir yarık açılıyor, bölme paneli de bu yarıktan
+// geçecek kadar (H + malzeme kalınlığı) uzun kesiliyor. Bölme yukarıdan kaydırılıp alt plakadaki
+// yarığa oturtulunca kendiliğinden sabitleniyor, ek bağlantı/yapıştırma gerekmiyor.
 (function () {
   "use strict";
   const { buildOpenBoxPanels, layoutPanels, renderSVG, buildDXF, download } = VC;
 
-  function dividerPanel(Wi, H) {
-    return { points: [{ x: 0, y: 0 }, { x: Wi, y: 0 }, { x: Wi, y: H }, { x: 0, y: H }], w: Wi, h: H };
+  function dividerPanel(Wi, H, tabDepth) {
+    const h = H + tabDepth;
+    return { points: [{ x: 0, y: 0 }, { x: Wi, y: 0 }, { x: Wi, y: h }, { x: 0, y: h }], w: Wi, h };
+  }
+
+  // Alt plakanın kendi yerel çerçevesinde (x:[0,Li], y:[0,Wi]) bir bölme yarığı — tam Wi
+  // boyunca (y:0'dan Wi'ye) uzanır, genişligi malzeme kalinligina (kerf'e gore) sıkı gelir.
+  function dividerSlot(xCenter, Wi, t, kerf) {
+    const halfW = (t - kerf) / 2;
+    const x1 = xCenter - halfW, x2 = xCenter + halfW;
+    return [{ x: x1, y: 0 }, { x: x2, y: 0 }, { x: x2, y: Wi }, { x: x1, y: Wi }];
   }
 
   function buildPanels(L, W, H, t, kerf, fingerTarget, bolmeSayisi) {
-    const { Wi, bottom, front, back, left, right } = buildOpenBoxPanels(L, W, H, t, kerf, fingerTarget);
+    const { Li, Wi, bottom, front, back, left, right } = buildOpenBoxPanels(L, W, H, t, kerf, fingerTarget);
     const isEn = document.documentElement.lang === "en";
     const N = isEn
       ? { bottom: "Bottom", front: "Front", back: "Back", left: "Left", right: "Right", div: "Divider" }
@@ -25,10 +36,13 @@
     ];
 
     const dividerCount = Math.max(0, bolmeSayisi - 1);
+    const slots = [];
     for (let i = 0; i < dividerCount; i++) {
-      panels.push({ name: `${N.div} ${i + 1}`, ...dividerPanel(Wi, H) });
+      panels.push({ name: `${N.div} ${i + 1}`, ...dividerPanel(Wi, H, t) });
+      const xCenter = ((i + 1) * Li) / bolmeSayisi;
+      slots.push(dividerSlot(xCenter, Wi, t, kerf));
     }
-    return panels;
+    return { panels, slots };
   }
 
   let currentSVG = "", currentDXF = "";
@@ -50,8 +64,16 @@
       return;
     }
 
-    const panels = buildPanels(L, W, H, t, kerf, fingerTarget, bolmeSayisi);
+    const { panels, slots } = buildPanels(L, W, H, t, kerf, fingerTarget, bolmeSayisi);
     const { placed, totalW, totalH } = layoutPanels(panels, 10);
+
+    // Yarıklar alt plakanın kendi yerel çerçevesinde hesaplandı; alt plaka layoutPanels
+    // tarafından nereye yerleştirildiyse (ox,oy) yarıklar da aynı ofsetle oraya eklenir.
+    const bottomPlaced = placed[0];
+    const isEnName = isEn ? "Hole" : "Yarık";
+    for (let i = 0; i < slots.length; i++) {
+      placed.push({ points: slots[i], ox: bottomPlaced.ox, oy: bottomPlaced.oy, name: `${isEnName} ${i + 1}` });
+    }
 
     currentSVG = renderSVG(placed, totalW, totalH);
     currentDXF = buildDXF(placed, totalH);
