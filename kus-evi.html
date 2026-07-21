@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ücretsiz Kuş Evi Çizimi Oluşturucu — Vektörel Çizim</title>
+<meta name="description" content="Ölçülerinizi girin, lazer kesime hazır parmak geçmeli kuş evi çizimini saniyeler içinde SVG veya DXF olarak indirin. Tamamen ücretsiz, kayıt gerektirmez.">
+<link rel="canonical" href="https://vektorel-cizim.pages.dev/kus-evi.html">
+<link rel="alternate" hreflang="tr" href="https://vektorel-cizim.pages.dev/kus-evi.html">
+<link rel="alternate" hreflang="en" href="https://vektorel-cizim.pages.dev/en/kus-evi.html">
+<link rel="alternate" hreflang="x-default" href="https://vektorel-cizim.pages.dev/en/kus-evi.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Vektörel Çizim — Kuş Evi Oluşturucu",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Any (Web)",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "TRY"},
+  "description": "Lazer kesim için ölçülere göre otomatik, parmak geçmeli kuş evi çizimi üreten ücretsiz web aracı."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Çatı nasıl sabitlenir?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Gövde (taban, iki düz duvar, iki alınlık) tamamen parmak geçmelidir, önce onu birleştirin. Çatı iki düz panelden oluşur, alınlıkların eğik kenarlarının üzerine oturur ve düz duvarların üst kenarındaki yuvalara geçen tırnaklarla kilitlenir — yapıştırıcı gerekmez."}},
+    {"@type": "Question", "name": "Giriş deliği boyutunu değiştirebilir miyim?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Evet, çapını ve tabandan yüksekliğini kendiniz belirleyebilirsiniz — kuş türüne göre standart çaplar farklıdır."}},
+    {"@type": "Question", "name": "Ölçüleri değiştirince parmaklar bozulur mu?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Hayır, her ölçü değişikliğinde parmak sayısı ve fazı o kenarın yeni uzunluğuna göre otomatik yeniden hesaplanır."}}
+  ]
+}
+</script>
+<link rel="stylesheet" href="css/style.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6376433539359626" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">✂️ Vektörel Çizim</a>
+    <nav class="main-nav">
+      <a href="index.html">Açık Kutu</a>
+      <a href="kapali-kutu.html">Kapalı Kutu</a>
+      <a href="raf.html">Raf</a>
+      <a href="isimlik.html">İsimlik</a>
+      <a href="kus-evi.html" class="active">Kuş Evi</a>
+      <a href="en/kus-evi.html" class="lang-switch">EN</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Ücretsiz Kuş Evi Çizimi Oluşturucu</h1>
+    <p>Ölçülerinizi girin, lazer kesime hazır, parmak geçmeli kuş evi çiziminizi anında görün ve SVG veya DXF olarak indirin. Kayıt yok, ücret yok.</p>
+  </div>
+</section>
+
+<section class="tool-section">
+  <div class="tool-inner">
+    <div class="panel form-panel">
+      <h2>Ölçüler</h2>
+      <div class="field">
+        <label for="uzunluk">Uzunluk (mm, dış ölçü)</label>
+        <input type="number" id="uzunluk" value="140" min="60" max="600" step="1">
+      </div>
+      <div class="field">
+        <label for="genislik">Genişlik (mm, dış ölçü)</label>
+        <input type="number" id="genislik" value="120" min="60" max="600" step="1">
+      </div>
+      <div class="field">
+        <label for="duvarYuksekligi">Duvar Yüksekliği (mm)</label>
+        <input type="number" id="duvarYuksekligi" value="100" min="40" max="400" step="1">
+      </div>
+      <div class="field">
+        <label for="catiYuksekligi">Çatı Tepe Yüksekliği (mm)</label>
+        <input type="number" id="catiYuksekligi" value="60" min="15" max="300" step="1">
+        <span class="hint">Alınlığın en yüksek noktasının duvar üstünden ne kadar yukarıda olacağı.</span>
+      </div>
+      <div class="field">
+        <label for="kalinlik">Malzeme Kalınlığı (mm)</label>
+        <input type="number" id="kalinlik" value="2.8" min="1" max="20" step="0.1">
+      </div>
+      <div class="field">
+        <label for="girisDeligiCap">Giriş Deliği Çapı (mm)</label>
+        <input type="number" id="girisDeligiCap" value="32" min="15" max="120" step="1">
+      </div>
+      <div class="field">
+        <label for="girisDeligiYukseklik">Giriş Deliği Yüksekliği (mm, tabandan)</label>
+        <input type="number" id="girisDeligiYukseklik" value="75" min="10" max="500" step="1">
+      </div>
+
+      <details class="advanced">
+        <summary>Gelişmiş Ayarlar</summary>
+        <div class="field">
+          <label for="parmakHedef">Hedef Parmak Genişliği (mm)</label>
+          <input type="number" id="parmakHedef" value="12" min="5" max="60" step="1">
+        </div>
+        <div class="field">
+          <label for="kerf">Lazer Kesim Payı / Kerf (mm)</label>
+          <input type="number" id="kerf" value="0.15" min="0" max="1" step="0.01">
+          <span class="hint">Lazerinizin kesim genişliğine göre ayarlayın, sıkı geçme için.</span>
+        </div>
+        <div class="field">
+          <label for="catiTasmaOn">Çatı Taşması — Ön/Arka (mm)</label>
+          <input type="number" id="catiTasmaOn" value="10" min="0" max="60" step="1">
+        </div>
+        <div class="field">
+          <label for="catiTasmaEave">Çatı Taşması — Yan/Saçak (mm)</label>
+          <input type="number" id="catiTasmaEave" value="10" min="0" max="60" step="1">
+        </div>
+      </details>
+
+      <button id="cizBtn" class="btn-primary">Çizimi Oluştur</button>
+
+      <div id="boyutBilgisi" class="size-info"></div>
+
+      <div class="downloads" id="downloads" style="display:none">
+        <button id="svgBtn" class="btn-secondary">SVG İndir</button>
+        <button id="dxfBtn" class="btn-secondary">DXF İndir</button>
+      </div>
+    </div>
+
+    <div class="panel preview-panel">
+      <h2>Önizleme</h2>
+      <div id="previewWrap" class="preview-wrap">
+        <div class="preview-placeholder">Ölçüleri girip "Çizimi Oluştur"a basın</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ad-slot">
+  <!-- Google AdSense buraya eklenecek -->
+</section>
+
+<section class="info-section">
+  <div class="info-inner">
+    <h2>Nasıl Kullanılır?</h2>
+    <ol>
+      <li>Kuş evinin dış ölçülerini (uzunluk, genişlik, duvar yüksekliği, çatı tepe yüksekliği), malzeme kalınlığını ve giriş deliği ölçülerini girin.</li>
+      <li>"Çizimi Oluştur" butonuna basın, panellerin yerleşimini önizlemede görün.</li>
+      <li>SVG veya DXF olarak indirin, lazer kesim yazılımınıza (LightBurn, CorelDraw, Illustrator vb.) aktarın.</li>
+      <li>Gövde (Taban, Sol Duvar, Sağ Duvar, Ön Alınlık, Arka Alınlık) <strong>tamamen parmak geçmelidir</strong>, önce onu birleştirin. Çatı, iki düz panelden oluşur; alınlıkların eğik kenarına oturur ve düz duvarların üst kenarındaki yuvalara geçen tırnaklarla kilitlenir — <strong>yapıştırıcı gerekmez, tamamen mekanik geçmelidir</strong>.</li>
+    </ol>
+  </div>
+</section>
+
+<section class="info-section">
+  <div class="info-inner">
+    <h2>Sıkça Sorulan Sorular</h2>
+    <div class="faq-list">
+      <details><summary>Çatı nasıl sabitlenir?</summary><p>Gövde tamamen parmak geçmelidir, önce onu birleştirin. Çatı iki düz panelden oluşur, alınlıkların eğik kenarlarının üzerine oturur ve düz duvarların üst kenarındaki yuvalara geçen tırnaklarla kilitlenir — yapıştırıcı gerekmez, çocuklar için güvenlidir.</p></details>
+      <details><summary>Giriş deliği boyutunu değiştirebilir miyim?</summary><p>Evet, çapını ve tabandan yüksekliğini kendiniz belirleyebilirsiniz — kuş türüne göre standart çaplar farklıdır.</p></details>
+      <details><summary>Ölçüleri değiştirince parmaklar bozulur mu?</summary><p>Hayır, her ölçü değişikliğinde parmak sayısı ve fazı o kenarın yeni uzunluğuna göre otomatik yeniden hesaplanır.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">© 2026 Vektörel Çizim — Lazer kesim camiası için ücretsiz araçlar.</div>
+</footer>
+
+<script src="js/common.js"></script>
+<script src="js/kus-evi.js"></script>
+</body>
+</html>

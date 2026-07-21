@@ -164,5 +164,10 @@ const VC = (function () {
     URL.revokeObjectURL(url);
   }
 
-  return { fingerCount, fingerEdge, straightEdge, outStartFor, buildOpenBoxPanels, layoutPanels, renderSVG, buildDXF, download };
+  return {
+    fingerCount, fingerEdge, straightEdge, outStartFor, buildOpenBoxPanels, layoutPanels, renderSVG, buildDXF, download,
+    // exposed so other tools (Kuş Evi) can compose custom panels (e.g. a gabled wall) that still
+    // mate correctly with the same left/right/bottom panels used by the standard open box.
+    frontBackPanel, leftRightPanel, bottomCapPanel,
+  };
 })();
